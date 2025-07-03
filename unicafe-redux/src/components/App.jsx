@@ -19,12 +19,19 @@ const App = ({ store }) => {
     store.dispatch(action);
   };
 
+  const zero = () => {
+    const action = {
+      type: 'ZERO',
+    };
+    store.dispatch(action);
+  };
+
   return (
     <div>
       <button onClick={good}>good</button>
       <button onClick={ok}>ok</button>
       <button onClick={bad}>bad</button>
-      <button>reset stats</button>
+      <button onClick={zero}>reset stats</button>
       <div>good {store.getState().good}</div>
       <div>ok {store.getState().ok}</div>
       <div>bad {store.getState().bad}</div>
