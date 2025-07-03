@@ -47,6 +47,7 @@ describe('unicafe reducer', () => {
       bad: 0
     })
   })
+
   test('bad is incremented', () => {
     const action = {
       type: 'BAD',
@@ -58,6 +59,30 @@ describe('unicafe reducer', () => {
       good: 0,
       ok: 0,
       bad: 1,
+    })
+  })
+
+  describe('with modified initial state', () => {
+    const initialState = {
+      good: 0,
+      ok: 1,
+      bad: 5,
+    }
+
+    test('return to initial state if ZERO is called', () => {
+      const action = {
+        type: 'ZERO'
+      }
+
+      const state = initialState
+      deepFreeze(state)
+      const newState = counterReducer(state, action)
+      expect(newState).toEqual({
+        good: 0,
+        ok: 0,
+        bad: 0,
+      })
+
     })
   })
 })
