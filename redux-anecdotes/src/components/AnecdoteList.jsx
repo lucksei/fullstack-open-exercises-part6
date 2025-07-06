@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { vote } from '../reducers/anecdoteReducer';
+import { voteAnecdote } from '../reducers/anecdoteReducer';
 
 const AnecdoteList = () => {
   const filter = useSelector((state) => state.filter);
@@ -15,7 +15,7 @@ const AnecdoteList = () => {
   const dispatch = useDispatch();
 
   const handleVote = (id) => {
-    dispatch(vote(id));
+    dispatch(voteAnecdote(id));
   };
 
   return (
