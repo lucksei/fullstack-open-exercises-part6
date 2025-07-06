@@ -6,26 +6,26 @@ const notificationSlice = createSlice({
   name: 'notification',
   initialState: initialState,
   reducers: {
-    setNotification(state, action) {
+    addNotification(state, action) {
       const notification = action.payload
       return notification
     },
-    removeNotification() {
+    clearNotification() {
       return initialState
     },
   },
 })
 
 
-export const { setNotification, removeNotification } = notificationSlice.actions
+export const { addNotification, clearNotification } = notificationSlice.actions
 
 // Trying out thunks just because
-export const showNotification = (text) => {
+export const setNotification = (text, time) => {
   return (dispatch) => {
-    dispatch(setNotification(text))
+    dispatch(addNotification(text))
     setTimeout(() => {
-      dispatch(removeNotification())
-    }, 1000)
+      dispatch(clearNotification())
+    }, 1000 * time)
   }
 }
 
