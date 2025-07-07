@@ -1,19 +1,36 @@
-import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 
 import AnecdoteForm from './components/AnecdoteForm';
 import Notification from './components/Notification';
 
+import anecdoteService from './services/anecdotes';
+
 const App = () => {
+  const queryClient = useQueryClient();
+
+  const updateNoteMutation = useMutation({
+    mutationFn: anecdoteService.update,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['anecdotes'] });
+    },
+  });
+
   const result = useQuery({
     queryKey: ['anecdotes'],
-    queryFn: () =>
-      axios.get('http://localhost:3001/anecdotes').then((res) => res.data),
+    queryFn: () => anecdoteService.getAll(),
     retry: false,
   });
   console.log(JSON.parse(JSON.stringify(result)));
 
   const anecdotes = result.data;
+
+  const handleVote = (anecdote) => {
+    updateNoteMutation.mutate({
+      ...anecdote,
+      votes: anecdote.votes + 1,
+    });
+    console.log('vote');
+  };
 
   if (result.isLoading) {
     return <div>loading data...</div>;
@@ -21,11 +38,6 @@ const App = () => {
   if (result.isError) {
     return <div>anecdote service not available due to problems in server</div>;
   }
-
-  const handleVote = (anecdote) => {
-    console.log('vote');
-  };
-
   return (
     <div>
       <h3>Anecdote app</h3>
