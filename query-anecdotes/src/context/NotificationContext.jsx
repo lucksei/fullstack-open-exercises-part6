@@ -1,9 +1,11 @@
 import { createContext, useReducer } from 'react';
 import PropTypes from 'prop-types';
 
+const NotificationContext = createContext();
+
 const notificationReducer = (state, action) => {
   switch (action.type) {
-    case 'NEW_NOTIFICATION':
+    case 'ADD_NOTIFICATION':
       return action.payload;
     case 'CLEAR_NOTIFICATION':
       return null;
@@ -11,8 +13,6 @@ const notificationReducer = (state, action) => {
       return state;
   }
 };
-
-const NotificationContext = createContext();
 
 export const NotificationContextProvider = ({ children }) => {
   const [notification, notificationDispatch] = useReducer(
@@ -30,4 +30,12 @@ NotificationContextProvider.propTypes = {
   children: PropTypes.node,
 };
 
+const setNotificationHelper = (dispatch, text, time) => {
+  dispatch({ type: 'ADD_NOTIFICATION', payload: text });
+  setTimeout(() => {
+    dispatch({ type: 'CLEAR_NOTIFICATION' });
+  }, time);
+};
+
+export { setNotificationHelper };
 export default NotificationContext;
