@@ -13,8 +13,20 @@ const AnecdoteForm = () => {
 
   const newAnecdoteMutation = useMutation({
     mutationFn: anecdoteService.create,
-    onSuccess: () => {
+    onSuccess: (anecdote) => {
+      setNotificationHelper(
+        notificationDispatch,
+        `New anecdote: ${anecdote.content}`,
+        5000
+      );
       queryClient.invalidateQueries({ queryKey: ['anecdotes'] });
+    },
+    onError: () => {
+      setNotificationHelper(
+        notificationDispatch,
+        'Anecdote must be at least 5 characters long',
+        5000
+      );
     },
   });
 
@@ -22,16 +34,12 @@ const AnecdoteForm = () => {
     event.preventDefault();
     const content = event.target.anecdote.value;
     event.target.anecdote.value = '';
-    setNotificationHelper(
-      notificationDispatch,
-      `New anecdote: ${content}`,
-      5000
-    );
 
     newAnecdoteMutation.mutate({
       content: content,
       votes: 0,
     });
+
     console.log('new anecdote');
   };
 

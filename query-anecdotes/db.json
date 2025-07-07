@@ -44,6 +44,21 @@
       "content": "another new note",
       "votes": 0,
       "id": "CeT2x3R"
+    },
+    {
+      "content": "testing if it can catch a parameter",
+      "votes": 0,
+      "id": "4lH0ZRe"
+    },
+    {
+      "content": "testing if i can pass content to the creation of an anecdote",
+      "votes": 0,
+      "id": "oCwxdfz"
+    },
+    {
+      "content": "testing if i can pass content to the creation of an anecdote",
+      "votes": 0,
+      "id": "aHKF-RA"
     }
   ]
 }
